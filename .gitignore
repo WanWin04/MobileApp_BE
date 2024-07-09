@@ -36,3 +36,5 @@
 *.sh
 build/
 .vscode/
+
+.venv/
