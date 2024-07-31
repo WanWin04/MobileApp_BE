@@ -8,6 +8,7 @@ class ReceiptSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'user',
+            'user_id'
             'customer_name',
             'address',
             'email',
@@ -15,6 +16,7 @@ class ReceiptSerializer(serializers.ModelSerializer):
             'paid_amount'
         ]
         extra_kwargs = {
+            'user_id': {'read_only': True},
             'user': {'read_only': True},
             'id': {'read_only': True},
         }

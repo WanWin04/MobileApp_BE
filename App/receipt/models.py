@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 class Receipt(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    user_id = models.models.CharField(_("ID"), max_length=50)
     customer_name = models.CharField(_('Customer Name'), max_length=250)
     address = models.CharField(_('Address'), max_length=250)
     phone_number = models.CharField(_('Phone Number'), max_length=20)
