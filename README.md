@@ -1,1 +1,1 @@
-Please read Rules.md before continuing
+Mobile App
