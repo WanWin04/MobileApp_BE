@@ -22,6 +22,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         ]
         extra_kwargs = {
             'password': {'write_only': True},
+            'confirm_password': {'write_only': True},
             'id': {'read_only': True},
         }
 

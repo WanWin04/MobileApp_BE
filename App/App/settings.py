@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
     "account",
     "invoice",
+    "receipt",
     
     "rest_framework",
     "rest_framework.authtoken",
