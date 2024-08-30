@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create new book</title>
+</head>
+<body>
+    <h2>Create new book</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <label>Categories:</label>
+            {{ form.categories }}  
+        </div>
+        {{ form.as_p }}
+        <button type="submit">Add Book</button>
+    </form>
+</body>
+</html>
