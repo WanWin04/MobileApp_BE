@@ -17,7 +17,10 @@ def add_book(request):
 def search_books(request):
     query = request.query_params.get('q', None)  # Lấy giá trị của tham số 'q'
     if query:
-        books = Book.objects.filter(book_name__icontains=query)  # Tìm kiếm không phân biệt chữ hoa/chữ thường
+        books = (Book.objects.filter(book_id__icontains=query) | 
+                 Book.objects.filter(book_name__icontains=query) | 
+                 Book.objects.filter(author__icontains=query) | 
+                 Book.objects.filter(category__icontains=query))
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
