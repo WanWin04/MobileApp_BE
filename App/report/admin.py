@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import InventoryReport, DebtReport
 
-# Register your models here.
+admin.site.register(InventoryReport)
+admin.site.register(DebtReport)
