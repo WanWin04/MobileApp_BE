@@ -16,5 +16,5 @@ class SalesInvoiceSerializer(serializers.ModelSerializer):
         ]
         extra_kwargs = {
             'user': {'read_only': True},
-            'id': {'read_only': True},
+            'id': {'required': True},
         }
