@@ -10,4 +10,8 @@ class CreateSalesInvoiceView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        invoice_id = self.request.data.get('id', None)
+        if invoice_id:
+            serializer.save(user=self.request.user, id=invoice_id)
+        else:
+            serializer.save(user=self.request.user)

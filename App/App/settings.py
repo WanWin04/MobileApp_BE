@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "receipt",
     "book",
     "book_import_order",
+    "report",
     
     "rest_framework",
     "rest_framework.authtoken",
@@ -84,11 +85,8 @@ WSGI_APPLICATION = "App.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "App",
-        "USER": "root",
-        "PASSWORD": "",
-        "HOST": "localhost",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
