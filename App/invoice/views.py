@@ -21,9 +21,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from customer.models import Customer
 
-@api_view(['GET'])
+@api_view(['POST'])
 def check_customer_id(request):
-    customer_id = request.query_params.get('customer_id', None)
+    customer_id = request.data.get('customer_id', None)
     
     if not customer_id:
         return Response({'error': 'Customer ID is required.'}, status=status.HTTP_400_BAD_REQUEST)

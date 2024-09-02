@@ -1,14 +1,29 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from .models import ImportBookOrder
 from .serializers import ImportBookOrderSerializer
 
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from book.models import Book
+
+
+class CreateImportBookOrderView(generics.CreateAPIView):
+    queryset = ImportBookOrder.objects.all()
+    serializer_class = ImportBookOrderSerializer
+    permission_classes = [IsAuthenticated]  
+
+    def perform_create(self, serializer):
+        serializer.save()
+
 @api_view(['POST'])
-def create_import_book_order(request):
-    if request.method == 'POST':
-        serializer = ImportBookOrderSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+def check_book_id(request):
+    book_id = request.data.get('book_id', None)
+    if not book_id:
+        return Response({'error': 'Book ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        book = Book.objects.get(book_id=book_id)
+        return Response({'book_name': book.book_name, 'author' : book.author}, status=status.HTTP_200_OK)
+    except Book.DoesNotExist:
+        return Response({'error': 'Book not found.'}, status=status.HTTP_404_NOT_FOUND)
