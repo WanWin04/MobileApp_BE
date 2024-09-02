@@ -3,27 +3,32 @@ from rest_framework.permissions import IsAuthenticated
 from .models import SalesInvoice
 from .serializers import SalesInvoiceSerializer
 
-class CreateSalesInvoiceView(generics.CreateAPIView):
-    queryset = SalesInvoice.objects.all()
-    serializer_class = SalesInvoiceSerializer
-    permission_classes = [IsAuthenticated]
-
-    def perform_create(self, serializer):
-        invoice_id = self.request.data.get('id', None)
-        if invoice_id:
-            serializer.save(user=self.request.user, id=invoice_id)
-        else:
-            serializer.save(user=self.request.user)
-
-
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from customer.models import Customer
 
-@api_view(['GET'])
+class CreateSalesInvoiceView(generics.CreateAPIView):
+    queryset = SalesInvoice.objects.all()
+    serializer_class = SalesInvoiceSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        if isinstance(request.data, list):
+            invoice_serializer = SalesInvoiceSerializer(data=request.data, many=True)
+        else:
+            invoice_serializer = SalesInvoiceSerializer(data=[request.data], many=True)
+        
+        if invoice_serializer.is_valid():
+            invoice_serializer.save(user=self.request.user)
+            return Response({"message": "Sales invoices created successfully"}, status=201)
+        else:
+            return Response(invoice_serializer.errors, status=400)
+
+
+@api_view(['POST'])
 def check_customer_id(request):
-    customer_id = request.query_params.get('customer_id', None)
+    customer_id = request.data.get('customer_id', None)
     
     if not customer_id:
         return Response({'error': 'Customer ID is required.'}, status=status.HTTP_400_BAD_REQUEST)

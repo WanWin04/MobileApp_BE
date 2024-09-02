@@ -12,4 +12,4 @@ class SalesInvoice(models.Model):
     price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
     
     def __str__(self):
-        return f"Invoice {self.id} for {self.customer_name}"
+        return f"Invoice {self.id} for {self.customer_id}"
