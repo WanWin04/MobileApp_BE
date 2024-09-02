@@ -7,7 +7,7 @@ class SalesInvoiceSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'user',
-            'customer_name',
+            'customer_id',
             'date',
             'book_name',
             'category',

@@ -10,4 +10,5 @@ urlpatterns = [
     path('book/', include(('book.urls', 'book'), namespace='book')),
     path('book-import-order/', include(('book_import_order.urls', 'book_import_order'), namespace='book_import_order')),
     path('report/', include(('report.urls', 'report'), namespace='report')),
+    path('customer/', include(('customer.urls', 'customer'), namespace='customer')),
 ]
