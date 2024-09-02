@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "book",
     "book_import_order",
     "report",
+    "customer",
     
     "rest_framework",
     "rest_framework.authtoken",
