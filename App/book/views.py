@@ -15,23 +15,23 @@ def add_book(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def search_books(request):
-    query = request.query_params.get('q', None)  # Lấy giá trị của tham số 'q'
+    query = request.data.get('q', None)  
     if query:
         books = (Book.objects.filter(book_id__icontains=query) | 
-                 Book.objects.filter(book_name__icontains=query) | 
+                 Book.objects.filter(book_name__icontains=query) |  
                  Book.objects.filter(author__icontains=query) | 
-                 Book.objects.filter(category__icontains=query))
+                 Book.objects.filter(category__icontains=query)).distinct()
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
-        return Response({"message": "Query parameter 'q' is required."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message": "Query parameter 'q' is required in the request body."}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def check_book_id(request):
-    book_id = request.query_params.get('book_id', None)
+    book_id = request.data.get('book_id', None)
     if not book_id:
         return Response({'error': 'Book ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
     try:
