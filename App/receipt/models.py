@@ -11,7 +11,7 @@ class Receipt(models.Model):
     phone_number = models.CharField(_('Phone Number'), max_length=20)
     email = models.EmailField(_('Email'), max_length=250)
     payment_date = models.DateField(_('Payment Date'))
-    paid_amount = models.DecimalField(_('Payment Amount'), max_digits=10, decimal_places=0)
+    paid_amount = models.DecimalField(_('Payment Amount'), max_digits=10, decimal_places=2)
 
     def __str__(self):
         return f"Receipt {self.receipt_id} for {self.customer_name}"
