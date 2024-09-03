@@ -35,6 +35,6 @@ def check_customer_id(request):
     
     try:
         customer = Customer.objects.get(customer_id=customer_id)
-        return Response({'customer_name': customer.name}, status=status.HTTP_200_OK)
+        return Response({'customer_name': customer.name, 'address': customer.address, 'phone_number': customer.phone_number, 'email': customer.email}, status=status.HTTP_200_OK)
     except Customer.DoesNotExist:
         return Response({'error': 'Customer not found.'}, status=status.HTTP_404_NOT_FOUND)

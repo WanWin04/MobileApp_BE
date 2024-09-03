@@ -8,6 +8,7 @@ class SalesInvoiceSerializer(serializers.ModelSerializer):
             'id',
             'user',
             'customer_id',
+            'customer_name',
             'date',
             'book_id',
             'book_name',

@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 class SalesInvoice(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     customer_id = models.CharField(_('Customer ID'), max_length=10, null=True, blank=True)
+    customer_name = models.CharField(_('Customer Name'), null=True, max_length=250)
     date = models.DateField(_('Date'))
     book_id = models.CharField(_('Book ID'), null=True, max_length=10)
     book_name = models.CharField(_('Book Name'), max_length=250)
