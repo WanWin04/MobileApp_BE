@@ -4,14 +4,14 @@ from .models import ImportBookOrder, OrderDetail
 class OrderDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderDetail
-        fields = ['book', 'amount']
+        fields = ['book_id', 'book_name', 'author', 'amount']  
 
 class ImportBookOrderSerializer(serializers.ModelSerializer):
-    details = OrderDetailSerializer(many=True)
+    details = OrderDetailSerializer(many=True)  
 
     class Meta:
         model = ImportBookOrder
-        fields = ['order_id', 'user_id', 'date', 'details']
+        fields = ['order_id', 'date', 'details']
 
     def create(self, validated_data):
         details_data = validated_data.pop('details')
