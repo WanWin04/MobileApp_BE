@@ -9,7 +9,6 @@ class SalesInvoice(models.Model):
     date = models.DateField(_('Date'))
     book_id = models.CharField(_('Book ID'), null=True, max_length=10)
     book_name = models.CharField(_('Book Name'), max_length=250)
-    category = models.CharField(_('Category'), max_length=250)
     quantity = models.PositiveIntegerField(_("Quantity"))
     price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2, null=True, blank=True, default=0.00)
     

@@ -12,7 +12,6 @@ class SalesInvoiceSerializer(serializers.ModelSerializer):
             'date',
             'book_id',
             'book_name',
-            'category',
             'quantity',
             'price'
         ]
