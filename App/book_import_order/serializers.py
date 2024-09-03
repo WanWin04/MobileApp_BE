@@ -21,19 +21,24 @@ class ImportBookOrderSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("The system regulations not found.")
 
         for detail in data['details']:
+            book_id = detail.get('book_id')
+            if not book_id:
+                raise serializers.ValidationError("Book ID is missing in one of the order details.")
+            
             try:
-                book = Book.objects.get(book_id=detail['book_id'])
+                book = Book.objects.get(book_id=book_id)
             except Book.DoesNotExist:
-                raise serializers.ValidationError(f"(ID: {data['book_id']}) Book does not exist.")
+                raise serializers.ValidationError(f"(ID: {book_id}) Book does not exist.")
             
             if detail['amount'] < regulation.min_import_amount:
-                raise serializers.ValidationError (f"(ID: {detail['book_id']}) The minimum import quantity is {regulation.min_import_amount}. Currently, there are only {detail['amount']}.")
-            
+                raise serializers.ValidationError(f"(ID: {book_id}) The minimum import quantity is {regulation.min_import_amount}. Currently, there are only {detail['amount']}.")
+
             current_stock = book.amount
             if current_stock >= regulation.max_import_stock:
                 raise serializers.ValidationError(f"(ID: {book.book_id}) The quantity of books in stock has exceeded the allowed maximum import limit of {regulation.max_import_stock}.")
 
         return data
+
     
     def create(self, validated_data):
         details_data = validated_data.pop('details')
