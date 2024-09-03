@@ -7,7 +7,7 @@ class OrderDetailInline(admin.TabularInline):
 
 class ImportBookOrderAdmin(admin.ModelAdmin):
     list_display = ('order_id', 'date')
-    inlines = [OrderDetailInline]  # Sử dụng inlines để hiển thị OrderDetail liên quan
+    inlines = [OrderDetailInline]  
     search_fields = ('order_id', 'date')
 
 admin.site.register(ImportBookOrder, ImportBookOrderAdmin)

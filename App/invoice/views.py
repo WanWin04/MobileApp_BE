@@ -3,23 +3,28 @@ from rest_framework.permissions import IsAuthenticated
 from .models import SalesInvoice
 from .serializers import SalesInvoiceSerializer
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from customer.models import Customer
+
 class CreateSalesInvoiceView(generics.CreateAPIView):
     queryset = SalesInvoice.objects.all()
     serializer_class = SalesInvoiceSerializer
     permission_classes = [IsAuthenticated]
 
-    def perform_create(self, serializer):
-        invoice_id = self.request.data.get('id', None)
-        if invoice_id:
-            serializer.save(user=self.request.user, id=invoice_id)
+    def post(self, request, *args, **kwargs):
+        if isinstance(request.data, list):
+            invoice_serializer = SalesInvoiceSerializer(data=request.data, many=True)
         else:
-            serializer.save(user=self.request.user)
+            invoice_serializer = SalesInvoiceSerializer(data=[request.data], many=True)
+        
+        if invoice_serializer.is_valid():
+            invoice_serializer.save(user=self.request.user)
+            return Response({"message": "Sales invoices created successfully"}, status=201)
+        else:
+            return Response(invoice_serializer.errors, status=400)
 
-
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from customer.models import Customer
 
 @api_view(['POST'])
 def check_customer_id(request):
@@ -30,6 +35,6 @@ def check_customer_id(request):
     
     try:
         customer = Customer.objects.get(customer_id=customer_id)
-        return Response({'customer_name': customer.name}, status=status.HTTP_200_OK)
+        return Response({'customer_name': customer.name, 'address': customer.address, 'phone_number': customer.phone_number, 'email': customer.email}, status=status.HTTP_200_OK)
     except Customer.DoesNotExist:
         return Response({'error': 'Customer not found.'}, status=status.HTTP_404_NOT_FOUND)
