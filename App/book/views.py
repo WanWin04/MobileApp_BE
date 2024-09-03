@@ -26,7 +26,10 @@ def search_books(request):
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
-        return Response({"message": "Query parameter 'q' is required in the request body."}, status=status.HTTP_400_BAD_REQUEST)
+        books = Book.objects.all()  
+    
+    serializer = BookSerializer(books, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
