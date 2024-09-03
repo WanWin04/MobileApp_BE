@@ -16,4 +16,3 @@ class Receipt(models.Model):
 
     def __str__(self):
         return f"Receipt {self.receipt_id} for {self.customer_name}"
-
