@@ -8,6 +8,7 @@ class ReceiptSerializer(serializers.ModelSerializer):
         fields = [
             'receipt_id',
             'user',
+            'customer_id',
             'customer_name',
             'address',
             'phone_number',
